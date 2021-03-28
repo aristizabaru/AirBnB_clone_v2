@@ -120,6 +120,7 @@ class HBNBCommand(cmd.Cmd):
         and arguments at index 1 """
         my_class = ""
         last_idx = 0
+        # find class
         for char in args:
             last_idx += 1
             if char == " ":
@@ -132,20 +133,17 @@ class HBNBCommand(cmd.Cmd):
 
     @staticmethod
     def get_dict(arg):
-        """ return dcit with valid values """
+        """ return arg as a dict key=value """
         res_dct = dict()
         temp = list()
         # get arguments separated with " in place
         arg = shlex.split(arg, posix=False)
-        # print(arg)
         # paste together any argument out of order
         for item in arg:
             if "=" in item:
                 temp.append(item)
             else:
                 temp[-1] += item
-        # print(temp)
-
         # get dictionary
         for item in temp:
             key = ""
@@ -160,13 +158,14 @@ class HBNBCommand(cmd.Cmd):
                 else:
                     value += char
             res_dct[key] = value
-        # print(res_dct)
         return res_dct
 
     @staticmethod
     def validate_dict(my_dict):
+        """ validate values in dict """
         new_dict = dict()
         for key, value in my_dict.items():
+            # validate string
             if value[0] == '"' and value[-1] == '"':
                 new_value = ""
                 for char in value:
@@ -176,6 +175,7 @@ class HBNBCommand(cmd.Cmd):
                         new_value += char
                 new_dict[key] = new_value[1:-1]
             else:
+                # validate floats and ints
                 try:
                     value = int(value)
                     new_dict[key] = value
@@ -189,27 +189,22 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
-        # print(args)
         # space " chars to manage data
         args = args.replace('"', '\"')
         # get class and arguments separated
         args = self.split_args(args)
-        # print(args)
-        # assing class and arguments as a ict
+        # assing class and arguments as a dict
         class_name = args[0]
         args_dict = self.validate_dict(self.get_dict(args[1]))
-        # print("___"*10)
-        #print("RESULTADOS FINALES")
-        #print("CLASE:", class_name)
-        #print("ARGUMENTOS VÁLIDOS:", args_dict)
+
         if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        # print(class_name)
-        # print(args_dict)
+
+        # create new instance
         new_instance = HBNBCommand.classes[class_name](**args_dict)
+        # save changes
         storage.save()
-        # print("-"*100)
         print(new_instance.id)
 
     def help_create(self):
