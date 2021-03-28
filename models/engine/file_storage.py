@@ -11,7 +11,7 @@ class FileStorage:
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
         obj_filtered = dict()
-        if cls:
+        if cls is not None:
             for key, value in type(self).__objects.items():
                 if value.__class__ == cls:
                     obj_filtered[key] = value
@@ -33,7 +33,8 @@ class FileStorage:
             json.dump(temp, f)
 
     def delete(self, obj=None):
-        if obj:
+        """Deletes an object from the dictionary"""
+        if obj is not None:
             key = obj.__class__.__name__ + '.' + obj.id
             if key in type(self).__objects:
                 type(self).__objects.pop(key)
