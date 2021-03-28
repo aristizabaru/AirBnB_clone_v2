@@ -127,7 +127,7 @@ class HBNBCommand(cmd.Cmd):
                 break
             else:
                 my_class += char
-        args = args[last_idx:].rstrip()
+        args = args[last_idx:].lstrip()
         result = [my_class, args]
         return result
 
@@ -138,12 +138,14 @@ class HBNBCommand(cmd.Cmd):
         temp = list()
         # get arguments separated with " in place
         arg = shlex.split(arg, posix=False)
+
         # paste together any argument out of order
         for item in arg:
             if "=" in item:
                 temp.append(item)
             else:
                 temp[-1] += item
+
         # get dictionary
         for item in temp:
             key = ""
@@ -191,12 +193,15 @@ class HBNBCommand(cmd.Cmd):
         """ Create an object of any class"""
         # space " chars to manage data
         args = args.replace('"', '\"')
+
         # get class and arguments separated
         args = self.split_args(args)
+
         # assing class and arguments as a dict
         class_name = args[0]
         args_dict = self.validate_dict(self.get_dict(args[1]))
-
+        print(class_name)
+        print(args_dict)
         if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
@@ -204,6 +209,7 @@ class HBNBCommand(cmd.Cmd):
         # create new instance
         new_instance = HBNBCommand.classes[class_name](**args_dict)
         # save changes
+        storage.new(new_instance)
         storage.save()
         print(new_instance.id)
 
@@ -287,7 +293,7 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all(args).items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
