@@ -10,6 +10,7 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
+import shlex
 
 
 class HBNBCommand(cmd.Cmd):
@@ -113,17 +114,102 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
+    @staticmethod
+    def split_args(args):
+        """ Isolate the class argument at index 0
+        and arguments at index 1 """
+        my_class = ""
+        last_idx = 0
+        for char in args:
+            last_idx += 1
+            if char == " ":
+                break
+            else:
+                my_class += char
+        args = args[last_idx:].rstrip()
+        result = [my_class, args]
+        return result
+
+    @staticmethod
+    def get_dict(arg):
+        """ return dcit with valid values """
+        res_dct = dict()
+        temp = list()
+        # get arguments separated with " in place
+        arg = shlex.split(arg, posix=False)
+        # print(arg)
+        # paste together any argument out of order
+        for item in arg:
+            if "=" in item:
+                temp.append(item)
+            else:
+                temp[-1] += item
+        # print(temp)
+
+        # get dictionary
+        for item in temp:
+            key = ""
+            value = ""
+            flag = 0
+            for char in item:
+                if char == "=":
+                    flag = 1
+                    continue
+                if flag == 0:
+                    key += char
+                else:
+                    value += char
+            res_dct[key] = value
+        # print(res_dct)
+        return res_dct
+
+    @staticmethod
+    def validate_dict(my_dict):
+        new_dict = dict()
+        for key, value in my_dict.items():
+            if value[0] == '"' and value[-1] == '"':
+                new_value = ""
+                for char in value:
+                    if char == "_":
+                        new_value += " "
+                    else:
+                        new_value += char
+                new_dict[key] = new_value[1:-1]
+            else:
+                try:
+                    value = int(value)
+                    new_dict[key] = value
+                except Exception:
+                    try:
+                        value = float(value)
+                        new_dict[key] = value
+                    except Exception:
+                        pass
+        return new_dict
+
     def do_create(self, args):
         """ Create an object of any class"""
-        # if not args:
-        #     print("** class name missing **")
-        #     return
-        # elif args not in HBNBCommand.classes:
-        #     print("** class doesn't exist **")
-        #     return
-
-        new_instance = HBNBCommand.classes[_class](argmunets)
+        # print(args)
+        # space " chars to manage data
+        args = args.replace('"', '\"')
+        # get class and arguments separated
+        args = self.split_args(args)
+        # print(args)
+        # assing class and arguments as a ict
+        class_name = args[0]
+        args_dict = self.validate_dict(self.get_dict(args[1]))
+        # print("___"*10)
+        #print("RESULTADOS FINALES")
+        #print("CLASE:", class_name)
+        #print("ARGUMENTOS VÁLIDOS:", args_dict)
+        if class_name not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+            return
+        # print(class_name)
+        # print(args_dict)
+        new_instance = HBNBCommand.classes[class_name](**args_dict)
         storage.save()
+        # print("-"*100)
         print(new_instance.id)
 
     def help_create(self):
