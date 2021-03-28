@@ -43,21 +43,6 @@ class BaseModel:
                 self.id = str(uuid.uuid4())
                 storage.new(self)
 
-        # if kwargs:
-        #     for key in kwargs:
-        #         if key != "__class__":
-        #             if key == "created_at" or key == "updated_at":
-        #                 setattr(self, key, datetime.strptime(
-        #                     kwargs[key], _format))
-        #             else:
-        #                 setattr(self, key, kwargs[key])
-        #         models.storage.new(self)
-        # else:
-        #     self.id = str(uuid.uuid4())
-        #     self.created_at = datetime.now()
-        #     self.updated_at = self.created_at
-        #     models.storage.new(self)
-
     def __str__(self):
         """Returns a string representation of the instance"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
