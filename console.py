@@ -10,6 +10,7 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
+import shlex
 
 
 class HBNBCommand(cmd.Cmd):
@@ -115,16 +116,46 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
-        if not args:
-            print("** class name missing **")
-            return
-        elif args not in HBNBCommand.classes:
+
+        # if not args:
+        #     print("** class name missing **")
+        #     return
+        # elif args not in HBNBCommand.classes:
+        #     print("** class doesn't exist **")
+        #     return
+
+        line = shlex.split(args, posix=False)
+        class_name = line[0]
+        arguments = line[1:]
+        if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
+        if len(arguments) > 0:
+            for i, argument in enumerate(arguments):
+                if argument[0] == "=" or argument[-1] == "=":
+                    arguments.pop(i)
+                else:
+                    key_value = argument[1:-2].replace('"', '\"')
+                    key_value = key_value.split("=")
+                    if len(key_value) != 2:
+                        print("Esto es antes de tostarse", key_value)
+                        if not(key_value[1][0] == '"' and key_value[-1][-1] == '"'):
+                            arguments.pop(i)
+            print("Esto se borrará:",arguments) # borrar
+            params = dict()
+            for argument in arguments:
+                if self.check_string(argument):
+                    print("Retornó String")
+                    break
+                elif self.check_int(argument):
+                    print("Retornó Int")
+                elif self.check_float(argument):
+                    print("Retornó Float")
+            return
+        else:
+            new_instance = HBNBCommand.classes[class_name]()
         storage.save()
         print(new_instance.id)
-        storage.save()
 
     def help_create(self):
         """ Help information for the create method """
@@ -319,6 +350,41 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
+    @staticmethod
+    def check_string(argument):
+        arg =  argument.split("=")
+        new_arg = ""
+        if arg[1][0] == '"' and arg[1][-1] == '"':
+           print(arg[1][1:-1])
+           for char in arg[1][1:-1]:
+               if char == "_":
+                new_arg+=" "
+               else:
+                new_arg+=char
+           print(new_arg)
+           return True
+        return False
+
+    @staticmethod
+    def check_float(argument):
+        try:
+            arg =  argument.split("=")
+            print(float(arg[1]))
+            return True
+        except Exception:
+            return False
+
+
+    @staticmethod
+    def check_int(argument):
+        try:
+            arg =  argument.split("=")
+            print(int(arg[1]))
+            return True
+        except Exception:
+            return False
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
