@@ -2,11 +2,14 @@
 """ Place Module for HBNB project """
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey, Integer, Float
+from sqlalchemy import Table
 from sqlalchemy.orm import relationship
+from models.amenity import Amenity
 
 
 class Place(BaseModel, Base):
     """ A place to stay """
+    # Table attributes and columns
     __tablename__ = "places"
     city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
     user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
@@ -19,7 +22,18 @@ class Place(BaseModel, Base):
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
     amenity_ids = []
+
+    # Creating a new table for the many to many relationship
+    place_amenity = Table('place_amenity', Base.metadata,
+        Column(String(60), ForeignKey('places.id'), primary_key=True),
+        Column(String(60), ForeignKey('amenities.id'), primary_key=True)
+    )
+
+    #Relationships bewteen tables
     reviews = relationship("Review", backref="place")
+    amenities = relationship(
+        "Amenity", backref="places", secondary=place_amenity, viewonly=False
+    )
 
     @property
     def reviews(self):
@@ -32,3 +46,23 @@ class Place(BaseModel, Base):
             if value.place_id == self.id:
                 place_reviews.append(value)
         return place_reviews
+
+    @property
+    def amenities(self):
+        from models import storage
+        """getter attribute cities that returns the
+        list of City instances with state_id"""
+        place_amenities= list()
+        all_amenities = storage.all("Amenity")
+        for key,value in all_amenities.items():
+            if value.id in type(self).amenity_ids:
+                place_amenities.append(value)
+        return place_amenities
+
+    @amenities.setter
+    def amenities(self, obj):
+        from models import storage
+        """getter attribute cities that returns the
+        list of City instances with state_id"""
+        if obj.__class__ == Amenity:
+            self.amenities.append(obj)
