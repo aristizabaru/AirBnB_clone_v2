@@ -35,6 +35,7 @@ class DBStorage:
     __session = None
 
     def __init__(self):
+        """Init for the DBStorage class"""
         # Load enviroment
         for key, value in enviroment.items():
             enviroment[key] = os.getenv(key)

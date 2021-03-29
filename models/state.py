@@ -14,9 +14,9 @@ class State(BaseModel, Base):
 
     @property
     def cities(self):
-        from models import storage
         """getter attribute cities that returns the
         list of City instances with state_id"""
+        from models import storage
         state_cities = list()
         all_cities = storage.all("City")
         for key, value in all_cities.items():
