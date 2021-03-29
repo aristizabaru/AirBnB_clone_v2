@@ -4,6 +4,8 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey, Integer, Float
 from sqlalchemy import Table
 from sqlalchemy.orm import relationship
+from os import getenv
+
 
 association_table = Table("place_amenity", Base.metadata,
                           Column("place_id", String(60), ForeignKey("places.id"),
