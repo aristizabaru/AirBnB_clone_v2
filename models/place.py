@@ -33,34 +33,35 @@ class Place(BaseModel, Base):
     amenities = relationship("Amenity", secondary="place_amenity",
                              viewonly=False)
 
-    @property
-    def reviews(self):
-        from models import storage
-        """getter attribute cities that returns the
-        list of City instances with state_id"""
-        place_reviews = list()
-        all_reviews = storage.all("Review")
-        for key, value in all_reviews.items():
-            if value.place_id == self.id:
-                place_reviews.append(value)
-        return place_reviews
+    if getenv("HBNB_TYPE_STORAGE", None) != "db":
+        @property
+        def reviews(self):
+            from models import storage
+            """getter attribute cities that returns the
+            list of City instances with state_id"""
+            place_reviews = list()
+            all_reviews = storage.all("Review")
+            for key, value in all_reviews.items():
+                if value.place_id == self.id:
+                    place_reviews.append(value)
+            return place_reviews
 
-    @property
-    def amenities(self):
-        from models import storage
-        """getter attribute cities that returns the
-        list of City instances with state_id"""
-        place_amenities = list()
-        all_amenities = storage.all("Amenity")
-        for key, value in all_amenities.items():
-            if value.id in type(self).amenity_ids:
-                place_amenities.append(value)
-        return place_amenities
+        @property
+        def amenities(self):
+            from models import storage
+            """getter attribute cities that returns the
+            list of City instances with state_id"""
+            place_amenities = list()
+            all_amenities = storage.all("Amenity")
+            for key, value in all_amenities.items():
+                if value.id in type(self).amenity_ids:
+                    place_amenities.append(value)
+            return place_amenities
 
-    @amenities.setter
-    def amenities(self, obj):
-        from models import storage
-        """getter attribute cities that returns the
-        list of City instances with state_id"""
-        if obj.__class__.__name__ == "Amenity":
-            self.amenities.append(obj)
+        @amenities.setter
+        def amenities(self, obj):
+            from models import storage
+            """getter attribute cities that returns the
+            list of City instances with state_id"""
+            if obj.__class__.__name__ == "Amenity":
+                self.amenities.append(obj)
