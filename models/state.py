@@ -17,9 +17,9 @@ class State(BaseModel, Base):
         from models import storage
         """getter attribute cities that returns the
         list of City instances with state_id"""
-        state_cities= list()
+        state_cities = list()
         all_cities = storage.all("City")
-        for key,value in all_cities.items():
+        for key, value in all_cities.items():
             if value.state_id == self.id:
                 state_cities.append(value)
         return state_cities
