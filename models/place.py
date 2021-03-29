@@ -4,7 +4,6 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey, Integer, Float
 from sqlalchemy import Table
 from sqlalchemy.orm import relationship
-from models.amenity import Amenity
 
 
 class Place(BaseModel, Base):
@@ -23,16 +22,17 @@ class Place(BaseModel, Base):
     longitude = Column(Float, nullable=True)
     amenity_ids = []
 
+    metadata = Base.metadata
     # Creating a new table for the many to many relationship
-    place_amenity = Table('place_amenity', Base.metadata,
-        Column(String(60), ForeignKey('places.id'), primary_key=True),
-        Column(String(60), ForeignKey('amenities.id'), primary_key=True)
+    place_amenity = Table('place_amenity', metadata,
+        Column('place_id', String(60), ForeignKey('places.id'), primary_key=True),
+        Column('amenity_id', String(60), ForeignKey('amenities.id'), primary_key=True)
     )
 
     #Relationships bewteen tables
     reviews = relationship("Review", backref="place")
     amenities = relationship(
-        "Amenity", backref="place", secondary=place_amenity, viewonly=False
+        "Amenity", back_populates="places", secondary=place_amenity, viewonly=False
     )
 
     @property
@@ -64,5 +64,5 @@ class Place(BaseModel, Base):
         from models import storage
         """getter attribute cities that returns the
         list of City instances with state_id"""
-        if obj.__class__ == Amenity:
+        if obj.__class__.__name__ == "Amenity":
             self.amenities.append(obj)
