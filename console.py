@@ -297,9 +297,6 @@ class HBNBCommand(cmd.Cmd):
         else:
             for k, v in storage.all().items():
                 print_list.append(str(v))
-                print("-"*120)
-                print(v)
-                print("-"*120)
 
         print(print_list)
 
