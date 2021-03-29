@@ -8,9 +8,11 @@ from os import getenv
 
 
 association_table = Table("place_amenity", Base.metadata,
-                          Column("place_id", String(60), ForeignKey("places.id"),
+                          Column("place_id", String(60),
+                                 ForeignKey("places.id"),
                                  primary_key=True, nullable=False),
-                          Column("amenity_id", String(60), ForeignKey("amenities.id"),
+                          Column("amenity_id", String(60),
+                                 ForeignKey("amenities.id"),
                                  primary_key=True, nullable=False))
 
 
