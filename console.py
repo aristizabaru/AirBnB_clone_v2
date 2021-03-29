@@ -294,9 +294,6 @@ class HBNBCommand(cmd.Cmd):
             for k, v in storage.all(args).items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
-                    print("-"*120)
-                    print(v)
-                    print("-"*120)
         else:
             for k, v in storage.all().items():
                 print_list.append(str(v))
