@@ -200,8 +200,6 @@ class HBNBCommand(cmd.Cmd):
         # assing class and arguments as a dict
         class_name = args[0]
         args_dict = self.validate_dict(self.get_dict(args[1]))
-        print(class_name)
-        print(args_dict)
         if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
@@ -293,12 +291,18 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all(args).items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
+                    print("-"*120)
+                    print(v)
+                    print("-"*120)
         else:
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all().items():
                 print_list.append(str(v))
+                print("-"*120)
+                print(v)
+                print("-"*120)
 
         print(print_list)
 
