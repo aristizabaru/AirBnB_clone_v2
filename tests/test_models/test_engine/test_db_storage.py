@@ -1,11 +1,11 @@
 #!/usr/bin/python3
-""" Module for testing file storage"""
+""" Module for testing db storage"""
 import unittest
 import pep8
 
 
-class test_fileStorage(unittest.TestCase):
-    """ Class to test the file storage method """
+class test_dbStorage(unittest.TestCase):
+    """ Class to test the db storage method """
     def test_pep8(self):
         """Check db_storage to be pep8 compliant"""
         fchecker = pep8.Checker("models/engine/db_storage.py", show_source=True)
