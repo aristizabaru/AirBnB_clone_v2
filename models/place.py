@@ -32,7 +32,7 @@ class Place(BaseModel, Base):
     #Relationships bewteen tables
     reviews = relationship("Review", backref="place")
     amenities = relationship(
-        "Amenity", backref="places", secondary=place_amenity, viewonly=False
+        "Amenity", backref="place", secondary=place_amenity, viewonly=False
     )
 
     @property
