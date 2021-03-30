@@ -13,6 +13,10 @@ import pep8
 class test_Console(unittest.TestCase):
     """ Class to test the console """
 
+    @unittest.skipIf(
+        os.getenv("HBNB_TYPE_STORAGE") == "db",
+        "not supported"
+    )
     def setUp(self):
         """ Set up test environment """
         del_list = []
@@ -21,6 +25,10 @@ class test_Console(unittest.TestCase):
         for key in del_list:
             del storage._FileStorage__objects[key]
 
+    @unittest.skipIf(
+        os.getenv("HBNB_TYPE_STORAGE") == "db",
+        "not supported"
+    )
     def tearDown(self):
         """ Remove storage file at end of tests """
         try:
@@ -34,6 +42,10 @@ class test_Console(unittest.TestCase):
         file_errors = fchecker.check_all()
         self.assertEqual(file_errors, 0)
 
+    @unittest.skipIf(
+        os.getenv("HBNB_TYPE_STORAGE") == "db",
+        "not supported"
+    )
     def test_create(self):
         """Test create"""
         stdout = None

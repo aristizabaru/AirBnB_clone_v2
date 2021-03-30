@@ -8,7 +8,10 @@ import json
 import os
 import pep8
 
-
+@unittest.skipIf(
+        os.getenv("HBNB_TYPE_STORAGE") == "db",
+        "not supported"
+    )
 class test_basemodel(unittest.TestCase):
     """ """
 
