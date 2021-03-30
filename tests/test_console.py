@@ -42,10 +42,6 @@ class test_Console(unittest.TestCase):
         file_errors = fchecker.check_all()
         self.assertEqual(file_errors, 0)
 
-    @unittest.skipIf(
-        os.getenv("HBNB_TYPE_STORAGE") == "db",
-        "not supported"
-    )
     def test_create(self):
         """Test create"""
         stdout = None
