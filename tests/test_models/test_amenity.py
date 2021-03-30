@@ -21,6 +21,6 @@ class test_Amenity(test_basemodel):
 
     def test_pep8(self):
         """Check console to be pep8 compliant"""
-        fchecker = pep8.Checker("models/test_amenity.py", show_source=True)
+        fchecker = pep8.Checker("models/amenity.py", show_source=True)
         file_errors = fchecker.check_all()
         self.assertEqual(file_errors, 0)
