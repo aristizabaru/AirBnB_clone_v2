@@ -33,11 +33,3 @@ class test_Console(unittest.TestCase):
         fchecker = pep8.Checker("console.py", show_source=True)
         file_errors = fchecker.check_all()
         self.assertEqual(file_errors, 0)
-
-    def test_create(self):
-        """Test create"""
-        stdout = None
-        with patch('sys.stdout', new=io.StringIO()) as fd:
-            HBNBCommand().onecmd('create State name="California"')
-            stdout = fd.getvalue()
-            self.assertEqual(type(stdout), str)
