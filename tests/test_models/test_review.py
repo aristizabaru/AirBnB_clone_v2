@@ -2,6 +2,7 @@
 """ """
 from tests.test_models.test_base_model import test_basemodel
 from models.review import Review
+import pep8
 
 
 class test_review(test_basemodel):
@@ -27,3 +28,9 @@ class test_review(test_basemodel):
         """ """
         new = self.value()
         self.assertEqual(type(new.text), str)
+
+    def test_pep8(self):
+        """Check console to be pep8 compliant"""
+        fchecker = pep8.Checker("models/review.py", show_source=True)
+        file_errors = fchecker.check_all()
+        self.assertEqual(file_errors, 0)

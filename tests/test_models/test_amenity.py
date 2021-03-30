@@ -2,6 +2,7 @@
 """ """
 from tests.test_models.test_base_model import test_basemodel
 from models.amenity import Amenity
+import pep8
 
 
 class test_Amenity(test_basemodel):
@@ -17,3 +18,9 @@ class test_Amenity(test_basemodel):
         """ """
         new = self.value()
         self.assertEqual(type(new.name), str)
+
+    def test_pep8(self):
+        """Check console to be pep8 compliant"""
+        fchecker = pep8.Checker("models/test_amenity.py", show_source=True)
+        file_errors = fchecker.check_all()
+        self.assertEqual(file_errors, 0)

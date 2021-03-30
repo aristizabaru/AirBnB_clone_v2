@@ -2,6 +2,7 @@
 """ """
 from tests.test_models.test_base_model import test_basemodel
 from models.city import City
+import pep8
 
 
 class test_City(test_basemodel):
@@ -22,3 +23,9 @@ class test_City(test_basemodel):
         """ """
         new = self.value()
         self.assertEqual(type(new.name), str)
+
+    def test_pep8(self):
+        """Check console to be pep8 compliant"""
+        fchecker = pep8.Checker("models/city.py", show_source=True)
+        file_errors = fchecker.check_all()
+        self.assertEqual(file_errors, 0)
