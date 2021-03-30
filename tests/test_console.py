@@ -13,10 +13,6 @@ import pep8
 class test_Console(unittest.TestCase):
     """ Class to test the console """
 
-    # @unittest.skipIf(
-    #    os.getenv("HBNB_TYPE_STORAGE") == "db",
-    #    "not supported"
-    # )
     def setUp(self):
         """ Set up test environment """
         del_list = []
@@ -25,16 +21,21 @@ class test_Console(unittest.TestCase):
         for key in del_list:
             del storage._FileStorage__objects[key]
 
-    # @unittest.skipIf(
-    #     os.getenv("HBNB_TYPE_STORAGE") == "db",
-    #     "not supported"
-    # )
     def tearDown(self):
         """ Remove storage file at end of tests """
         try:
             os.remove('file.json')
         except:
             pass
+
+    @unittest.skipIf(
+        os.getenv("HBNB_TYPE_STORAGE") == "db",
+        "not supported"
+    )
+    def test_dummy(self):
+        string = ""
+        string2 = ""
+        self.assertEqual(string, string2)
 
     def test_pep8(self):
         """Check console to be pep8 compliant"""
