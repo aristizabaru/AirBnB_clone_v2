@@ -4,7 +4,9 @@ import unittest
 import MySQLdb
 from console import HBNBCommand
 from models import storage
+from unittest.mock import patch
 import os
+import io
 import pep8
 
 
@@ -33,11 +35,12 @@ class test_Console(unittest.TestCase):
         self.assertEqual(file_errors, 0)
 
     def test_create(self):
-        """Check if new object is created properly"""
-        console = HBNBCommand()
-        console.do_create('State name="California"')
-        loaded = None
-        for obj in storage.all().values():
-            loaded = obj
-        self.assertEqual(loaded.to_dict()['name'], "California")
-
+        """Test <help> <help>"""
+        with patch('sys.stdout', new=io.StringIO()) as fd:
+            HBNBCommand().do_create('State name="California"')
+            stdout = fd.getvalue()
+            loaded = None
+            for obj in storage.all().values():
+                loaded = obj
+            self.assertEqual(str(loaded.to_dict()['id']) + '\n', stdout)
+            self.assertEqual(loaded.to_dict()['name'], "California")
