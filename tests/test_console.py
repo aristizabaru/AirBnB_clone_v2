@@ -35,12 +35,9 @@ class test_Console(unittest.TestCase):
         self.assertEqual(file_errors, 0)
 
     def test_create(self):
-        """Test <help> <help>"""
+        """Test create"""
+        stdout = None
         with patch('sys.stdout', new=io.StringIO()) as fd:
-            HBNBCommand().do_create('State name="California"')
+            HBNBCommand().onecmd('create State name="California"')
             stdout = fd.getvalue()
-            loaded = None
-            for obj in storage.all().values():
-                loaded = obj
-            self.assertEqual(str(loaded.to_dict()['id']) + '\n', stdout)
-            self.assertEqual(loaded.to_dict()['name'], "California")
+            self.assertEqual(type(stdout), str)
