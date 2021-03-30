@@ -9,10 +9,6 @@ import os
 import pep8
 
 
-@unittest.skipIf(
-    os.getenv("HBNB_TYPE_STORAGE") == "db",
-    "not supported"
-)
 class test_basemodel(unittest.TestCase):
     """ """
 
@@ -26,6 +22,10 @@ class test_basemodel(unittest.TestCase):
         """ """
         pass
 
+    @unittest.skipIf(
+        os.getenv("HBNB_TYPE_STORAGE") == "db",
+        "not supported"
+    )
     def tearDown(self):
         try:
             os.remove('file.json')
@@ -52,10 +52,10 @@ class test_basemodel(unittest.TestCase):
         with self.assertRaises(TypeError):
             new = BaseModel(**copy)
 
-    # @unittest.skipIf(
-    #    os.getenv("HBNB_TYPE_STORAGE") == "db",
-    #    "not supported"
-    # )
+    @unittest.skipIf(
+        os.getenv("HBNB_TYPE_STORAGE") == "db",
+        "not supported"
+    )
     def test_save(self):
         """ Testing save """
         i = self.value()
