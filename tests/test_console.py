@@ -36,15 +36,6 @@ class test_Console(unittest.TestCase):
         except:
             pass
 
-    @unittest.skipIf(
-        os.getenv("HBNB_TYPE_STORAGE") == "db",
-        "not supported"
-    )
-    def test_dummy(self):
-        string = ""
-        string2 = ""
-        self.assertEqual(string, string2)
-
     def test_pep8(self):
         """Check console to be pep8 compliant"""
         fchecker = pep8.Checker("console.py", show_source=True)

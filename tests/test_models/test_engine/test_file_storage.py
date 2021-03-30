@@ -6,10 +6,6 @@ from models import storage
 import os
 
 
-@unittest.skipIf(
-        os.getenv("HBNB_TYPE_STORAGE") == "db",
-        "not supported"
-    )
 class test_fileStorage(unittest.TestCase):
     """ Class to test the file storage method """
 
@@ -21,6 +17,10 @@ class test_fileStorage(unittest.TestCase):
         for key in del_list:
             del storage._FileStorage__objects[key]
 
+    @unittest.skipIf(
+        os.getenv("HBNB_TYPE_STORAGE") == "db",
+        "not supported"
+    )
     def tearDown(self):
         """ Remove storage file at end of tests """
         try:
@@ -49,11 +49,19 @@ class test_fileStorage(unittest.TestCase):
         temp = storage.all()
         self.assertIsInstance(temp, dict)
 
+    @unittest.skipIf(
+        os.getenv("HBNB_TYPE_STORAGE") == "db",
+        "not supported"
+    )
     def test_base_model_instantiation(self):
         """ File is not created on BaseModel save """
         new = BaseModel()
         self.assertFalse(os.path.exists('file.json'))
 
+    @unittest.skipIf(
+        os.getenv("HBNB_TYPE_STORAGE") == "db",
+        "not supported"
+    )
     def test_empty(self):
         """ Data is saved to file """
         new = BaseModel()
@@ -62,6 +70,10 @@ class test_fileStorage(unittest.TestCase):
         new2 = BaseModel(**thing)
         self.assertNotEqual(os.path.getsize('file.json'), 0)
 
+    @unittest.skipIf(
+        os.getenv("HBNB_TYPE_STORAGE") == "db",
+        "not supported"
+    )
     def test_save(self):
         """ FileStorage save method """
         new = BaseModel()
@@ -79,6 +91,10 @@ class test_fileStorage(unittest.TestCase):
             loaded = obj
         self.assertEqual(new.to_dict()['id'], loaded.to_dict()['id'])
 
+    @unittest.skipIf(
+        os.getenv("HBNB_TYPE_STORAGE") == "db",
+        "not supported"
+    )
     def test_reload_empty(self):
         """ Load from an empty file """
         with open('file.json', 'w') as f:
@@ -90,6 +106,10 @@ class test_fileStorage(unittest.TestCase):
         """ Nothing happens if file does not exist """
         self.assertEqual(storage.reload(), None)
 
+    @unittest.skipIf(
+        os.getenv("HBNB_TYPE_STORAGE") == "db",
+        "not supported"
+    )
     def test_base_model_save(self):
         """ BaseModel save method calls storage save """
         new = BaseModel()

@@ -5,11 +5,16 @@ import pep8
 import io
 from unittest.mock import patch
 from console import HBNBCommand
+import os
 
 
 class test_dbStorage(unittest.TestCase):
     """ Class to test the db storage method """
 
+    @unittest.skipIf(
+        os.getenv("HBNB_TYPE_STORAGE") != "db",
+        "not supported"
+    )
     def test_pep8(self):
         """Check db_storage to be pep8 compliant"""
         fchecker = pep8.Checker(
