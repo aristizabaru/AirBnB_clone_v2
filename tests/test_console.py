@@ -26,18 +26,3 @@ class test_Console(unittest.TestCase):
         fchecker = pep8.Checker("console.py", show_source=True)
         file_errors = fchecker.check_all()
         self.assertEqual(file_errors, 0)
-
-    def test_create(self):
-        """Check that created objects are correctly saved to the db"""
-        # Check amount of elements in table
-        count_before = type(self).cur.execute(
-            "SELECT count(states.id) FROM states"
-            )
-        # Create an object and upload it to the db
-        HBNBCommand.do_create('create State name="California"')
-        # Check amount of elements after adding a state
-        count_after = type(self).cur.execute(
-            "SELECT count(states.id) FROM states"
-            )
-        # Assert if count_after is greater than count_before
-        self.assertGreater(count_after, count_before)
