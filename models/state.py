@@ -9,7 +9,6 @@ class State(BaseModel, Base):
     """ State class """
     __tablename__ = "states"
     name = Column(String(128), nullable=False)
-    # is relationship.back_populates
     cities = relationship("City", backref="state")
 
     @property
