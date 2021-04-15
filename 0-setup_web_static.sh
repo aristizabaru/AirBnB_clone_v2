@@ -2,7 +2,7 @@
 # Install Nginx
 if ! [ -x "$(command -v nginx)" ]
 then
-   sudo apt-get update
+   sudo apt-get update -y
    sudo apt-get install nginx -y
    sudo service nginx start
 fi
@@ -24,11 +24,11 @@ fi
 
 # Create soft link from current to test directory
 LINK=/data/web_static/current
-TARGET=/data/web_static/releases/test
+TARGET=/data/web_static/releases/test/
 ln -sf "$TARGET" "$LINK"
 
 # Change owner
-chown -hR ubuntu:ubuntu /data/
+chown -R ubuntu:ubuntu /data/
 
 # Change Nginx configuration file
 CONFIG_WEB=/etc/nginx/sites-available/default
@@ -39,5 +39,3 @@ then
    sed -i "/server_name _;/ a $DATA" "$CONFIG_WEB"
    nginx -s reload
 fi
-
-service nginx restart
