@@ -4,19 +4,9 @@ from fabric.api import *
 from datetime import datetime
 from os.path import isdir, getsize, isfile
 
-servers_list = {
-    "2210-web-01": "34.75.110.34",
-    "2210-web-02": "35.229.72.142"
-}
-
-env.roledefs = {
-    'servers': [servers_list['2210-web-01'], servers_list['2210-web-02']]
-}
-
-# add decorator to only execute once do_pack
+env.hosts = ["34.75.110.34", "35.229.72.142"]
 
 
-@runs_once
 def do_pack():
     """pack static_web"""
 
@@ -45,10 +35,7 @@ def do_pack():
 
     return "{}/{}".format(target_dir, file_name)
 
-# add decorator to only execute servers
 
-
-@roles('servers')
 def do_deploy(archive_path):
     """deploy static"""
 
@@ -80,7 +67,6 @@ def do_deploy(archive_path):
         return False
 
 
-@roles('servers')
 def deploy():
     """deploy packing"""
     archive_path = do_pack()
