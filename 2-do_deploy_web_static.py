@@ -2,7 +2,7 @@
 """2-do_deploy_web_static.py"""
 from fabric.api import *
 from datetime import datetime
-from os.path import isdir, getsize, exists
+from os.path import isdir, getsize, isfile
 
 servers_list = {
     "2210-web-01": "34.75.110.34",
@@ -50,9 +50,9 @@ def do_deploy(archive_path):
     """deploy static"""
 
     # config
-    file_name = archive_path.split("/")[1]
-    if not exists(archive_path):
+    if isfile(archive_path) is False:
         return False
+    file_name = archive_path.split("/")[1]
     # put(local, remote)
     try:
         put(archive_path, "/tmp/{}".format(file_name))
