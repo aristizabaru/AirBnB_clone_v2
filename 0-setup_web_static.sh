@@ -33,8 +33,8 @@ chown -hR ubuntu:ubuntu /data
 # Change Nginx configuration file
 CONFIG_WEB=/etc/nginx/sites-available/default
 DATA="\\\n\tlocation /hbnb_static {\\n\\t\\talias /data/web_static/current/;\\n\\t}"
-IS_IN_FILE=$(cat $CONFIG_WEB | grep -c "hbnb_static")
-if [ $IS_IN_FILE -eq 0 ];
+IS_IN_FILE=$(grep -c "hbnb_static" $CONFIG_WEB)
+if [ "$IS_IN_FILE" -eq 0 ];
 then
    sed -i "/server_name _;/ a $DATA" "$CONFIG_WEB"
    nginx -s reload
