@@ -42,8 +42,6 @@ def do_pack():
 
     return "{}/{}".format(target_dir, file_name)
 
-# add decorator to only execute servers
-
 
 @roles('servers')
 def do_deploy(archive_path):

@@ -13,8 +13,6 @@ env.roledefs = {
     'servers': [servers_list['2210-web-01'], servers_list['2210-web-02']]
 }
 
-# add decorator to only execute once do_pack
-
 
 @runs_once
 def do_pack():
@@ -44,8 +42,6 @@ def do_pack():
           target_dir, file_name, file_size))
 
     return "{}/{}".format(target_dir, file_name)
-
-# add decorator to only execute servers
 
 
 @roles('servers')
