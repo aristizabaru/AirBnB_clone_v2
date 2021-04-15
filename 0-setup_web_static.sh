@@ -2,9 +2,9 @@
 # Install Nginx
 if ! [ -x "$(command -v nginx)" ]
 then
-   apt-get update
-   apt-get install nginx -y
-   service nginx start
+   sudo apt-get update
+   sudo apt-get install nginx -y
+   sudo service nginx start
 fi
 
 # Create directories and index.html
@@ -28,7 +28,7 @@ TARGET=/data/web_static/releases/test
 ln -sf "$TARGET" "$LINK"
 
 # Change owner
-chown -hR ubuntu:ubuntu /data
+chown -hR ubuntu:ubuntu /data/
 
 # Change Nginx configuration file
 CONFIG_WEB=/etc/nginx/sites-available/default
@@ -38,6 +38,6 @@ if [ "$IS_IN_FILE" -eq 0 ];
 then
    sed -i "/server_name _;/ a $DATA" "$CONFIG_WEB"
    nginx -s reload
-else
-   service nginx start
 fi
+
+service nginx restart
