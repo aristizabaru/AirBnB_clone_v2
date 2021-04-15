@@ -38,4 +38,6 @@ if [ "$IS_IN_FILE" -eq 0 ];
 then
    sed -i "/server_name _;/ a $DATA" "$CONFIG_WEB"
    nginx -s reload
+else
+   service nginx start
 fi
