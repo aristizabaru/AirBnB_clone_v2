@@ -2,7 +2,7 @@
 """100-clean_web_static.py"""
 from fabric.api import *
 from datetime import datetime
-from os.path import isdir, getsize, exists
+from os.path import isdir, getsize, isfile
 from os import listdir
 
 servers_list = {

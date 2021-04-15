@@ -2,7 +2,7 @@
 """3-deploy_web_static.py"""
 from fabric.api import *
 from datetime import datetime
-from os.path import isdir, getsize, exists
+from os.path import isdir, getsize, isfile
 
 servers_list = {
     "2210-web-01": "34.75.110.34",
