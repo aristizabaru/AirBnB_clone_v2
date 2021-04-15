@@ -62,9 +62,9 @@ def do_deploy(archive_path):
             "/data/web_static/releases/{}/".format(file_name,
                                                    name))
         run("rm /tmp/{}".format(file_name))
-        run("mv /data/web_static/releases/{}/web_static/* "
+        run("rsync -a /data/web_static/releases/{}/web_static/ "
             "/data/web_static/releases/{}/".format(
-                fname, name))
+                name, name))
         run("rm -rf /data/web_static/releases/{}/web_static".format(
             name))
         run("rm -rf /data/web_static/current")
@@ -72,6 +72,7 @@ def do_deploy(archive_path):
             "/data/web_static/current".format(
                 name))
         print("New version deployed!")
+
         return True
     except Exception:
         return False
