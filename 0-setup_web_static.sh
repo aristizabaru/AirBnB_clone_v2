@@ -2,27 +2,23 @@
 # Install Nginx
 if ! [ -x "$(command -v nginx)" ]
 then
-   apt-get update -y
-   apt-get install nginx -y
-   service nginx start
+   sudo apt-get update -y
+   sudo apt-get install nginx -y
+   sudo service nginx start
 fi
-
-mkdir -p /data/
-mkdir -p /data/web_static/
-mkdir -p /data/web_static/releases/
 
 # Create directories and index.html
 FILE=/data/web_static/releases/test/index.html
 DATA="<html>\n  <head>\n  </head>\n  <body>\n    Holberton School\n  </body>\n</html>"
 FILE_DIRECTORY=/data/web_static/releases/test/
-if [ ! -f "$FILE" ]; then
+if ! [ -f "$FILE" ]; then
     mkdir -p "$FILE_DIRECTORY"
     echo -e  "$DATA" > "$FILE"
 fi
 
 # Create directory shared
 DIRECTORY=/data/web_static/shared/
-if [ ! -d "$DIRECTORY" ]; then
+if ! [ -d "$DIRECTORY" ]; then
     mkdir -p "$DIRECTORY"
 fi
 
@@ -32,7 +28,7 @@ TARGET=/data/web_static/releases/test/
 ln -sf "$TARGET" "$LINK"
 
 # Change owner
-# chown -R ubuntu:ubuntu /data/
+chown -R ubuntu:ubuntu /data/
 
 # Change Nginx configuration file
 CONFIG_WEB=/etc/nginx/sites-available/default
