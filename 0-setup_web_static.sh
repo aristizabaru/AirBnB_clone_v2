@@ -25,7 +25,7 @@ ln -sf /data/web_static/releases/test/ /data/web_static/current
 chown -R ubuntu:ubuntu /data/
 
 # Change Nginx configuration file
-IS_IN_FILE=$(grep -c hbnb_static /etc/nginx/sites-available/default)
+IS_IN_FILE="$(grep -c hbnb_static /etc/nginx/sites-available/default)"
 if [ "$IS_IN_FILE" -eq 0 ];
 then
    sed -i "/server_name _;/ a \\\n\tlocation /hbnb_static {\\n\\t\\talias /data/web_static/current/;\\n\\t}" /etc/nginx/sites-available/default
