@@ -2,10 +2,14 @@
 # Install Nginx
 if ! [ -x "$(command -v nginx)" ]
 then
-   sudo apt-get update -y
-   sudo apt-get install nginx -y
-   sudo service nginx start
+   apt-get update -y
+   apt-get install nginx -y
+   service nginx start
 fi
+
+mkdir -p /data/
+mkdir -p /data/web_static/
+mkdir -p /data/web_static/releases/
 
 # Create directories and index.html
 FILE=/data/web_static/releases/test/index.html
@@ -28,11 +32,11 @@ TARGET=/data/web_static/releases/test/
 ln -sf "$TARGET" "$LINK"
 
 # Change owner
-chown -R ubuntu:ubuntu /data/
+# chown -R ubuntu:ubuntu /data/
 
 # Change Nginx configuration file
 CONFIG_WEB=/etc/nginx/sites-available/default
-DATA="\\\n\tlocation /hbnb_static {\\n\\t\\talias /data/web_static/current/;\\n\\t}"
+DATA="\\\n\tlocation /hbnb_static/ {\\n\\t\\talias /data/web_static/current/;\\n\\t}"
 IS_IN_FILE=$(grep -c "hbnb_static" $CONFIG_WEB)
 if [ "$IS_IN_FILE" -eq 0 ];
 then
