@@ -9,11 +9,10 @@ fi
 
 # Create directories and index.html
 FILE=/data/web_static/releases/test/index.html
-DATA="<html>\n  <head>\n  </head>\n  <body>\n    Holberton School\n  </body>\n</html>"
 FILE_DIRECTORY=/data/web_static/releases/test/
 if ! [ -f "$FILE" ]; then
     mkdir -p "$FILE_DIRECTORY"
-    printf  "$DATA" > "$FILE"
+    printf "<html>\n  <head>\n  </head>\n  <body>\n    Holberton School\n  </body>\n</html>" > "$FILE"
 fi
 
 # Create directory shared
@@ -32,11 +31,10 @@ chown -R ubuntu:ubuntu /data/
 
 # Change Nginx configuration file
 CONFIG_WEB=/etc/nginx/sites-available/default
-DATA="\n\tlocation /hbnb_static {\n\t\talias /data/web_static/current/;\n\t}"
 IS_IN_FILE=$(grep -c "hbnb_static" $CONFIG_WEB)
 if [ "$IS_IN_FILE" -eq 0 ];
 then
-   sed -i '/server_name _;/ a $DATA' "$CONFIG_WEB"
+   sed -i '/server_name _;/ a \n\tlocation /hbnb_static {\n\t\talias /data/web_static/current/;\n\t}' "$CONFIG_WEB"
    nginx -s reload
 fi
 
