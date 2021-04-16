@@ -2,32 +2,40 @@
 # Install Nginx
 if ! [ -x "$(command -v nginx)" ]
 then
-   apt-get update -y
-   apt-get install nginx -y
-   service nginx start
+   sudo apt-get update -y
+   sudo apt-get install nginx -y
+   sudo service nginx start
 fi
 
 # Create directories and index.html
-if ! [ -f /data/web_static/releases/test/index.html ]; then
-    mkdir -p /data/web_static/releases/test/
-    echo -e  "<html>\n  <head>\n  </head>\n  <body>\n    Holberton School\n  </body>\n</html>" > /data/web_static/releases/test/index.html
+FILE=/data/web_static/releases/test/index.html
+DATA="<html>\n  <head>\n  </head>\n  <body>\n    Holberton School\n  </body>\n</html>"
+FILE_DIRECTORY=/data/web_static/releases/test/
+if ! [ -f "$FILE" ]; then
+    mkdir -p "$FILE_DIRECTORY"
+    echo -e  "$DATA" > "$FILE"
 fi
 
 # Create directory shared
-if ! [ -d /data/web_static/shared/ ]; then
-    mkdir -p /data/web_static/shared/
+DIRECTORY=/data/web_static/shared/
+if ! [ -d "$DIRECTORY" ]; then
+    mkdir -p "$DIRECTORY"
 fi
 
 # Create soft link from current to test directory
-ln -sf /data/web_static/releases/test/ /data/web_static/current
+LINK=/data/web_static/current
+TARGET=/data/web_static/releases/test/
+ln -sf "$TARGET" "$LINK"
 
 # Change owner
-chown -R ubuntu:ubuntu /data/
+sudo chown -R ubuntu:ubuntu /data/
 
 # Change Nginx configuration file
-IS_IN_FILE="$(grep -c hbnb_static /etc/nginx/sites-available/default)"
+CONFIG_WEB=/etc/nginx/sites-available/default
+DATA="\\\n\tlocation /hbnb_static {\\n\\t\\talias /data/web_static/current/;\\n\\t}"
+IS_IN_FILE=$(grep -c "hbnb_static" $CONFIG_WEB)
 if [ "$IS_IN_FILE" -eq 0 ];
 then
-   sed -i "/server_name _;/ a \\\n\tlocation /hbnb_static {\\n\\t\\talias /data/web_static/current/;\\n\\t}" /etc/nginx/sites-available/default
+   sed -i "/server_name _;/ a $DATA" "$CONFIG_WEB"
    nginx -s reload
 fi
