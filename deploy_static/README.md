@@ -1,4 +1,4 @@
-# 0x13. JavaScript - Objects, Scopes and Closures
+# 0x03. AirBnB clone - Deploy static
 
 ## About
 
