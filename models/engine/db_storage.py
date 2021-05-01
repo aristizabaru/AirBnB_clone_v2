@@ -60,7 +60,9 @@ class DBStorage:
         # filter
         object_dict = dict()
         if cls:
-            result = type(self).__session.query(classes[cls]).all()
+            # result = type(self).__session.query(cls).all()
+            # result = type(self).__session.query(classes[cls]).all()
+            result = type(self).__session.query(eval(cls.__name__)).all()
             for item in result:
                 key = item.__class__.__name__ + '.' + item.id
                 object_dict[key] = item
@@ -83,6 +85,10 @@ class DBStorage:
         """delete from the current database session obj if not None"""
         if obj:
             type(self).__session.delete(obj)
+
+    def close(self):
+        """Close de session"""
+        type(self).__session.remove()
 
     def reload(self):
         """create the current database session"""

@@ -39,6 +39,10 @@ class FileStorage:
             if key in type(self).__objects:
                 type(self).__objects.pop(key)
 
+    def close(self):
+        """Loads storage dictionary from file"""
+        self.reload()
+
     def reload(self):
         """Loads storage dictionary from file"""
         from models.base_model import BaseModel
