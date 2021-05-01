@@ -31,9 +31,13 @@ def main():
     def number(n):
         return '{} is a number'.format(n)
 
-    @app.route('/number_template/<int:n>', strict_slashes=False)
+    @app.route("/number_template/<int:n>")
     def number_template(n):
-        return render_template('5-number.html', n=n)
+        """ display a HTML page only if n is an integer
+        Args:
+            n (int): “Number: n inside the tag BOD
+        """
+        return(render_template("5-number.html", n=n))
 
     app.run(host='0.0.0.0', port='5000')
 
