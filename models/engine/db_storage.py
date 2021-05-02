@@ -88,7 +88,7 @@ class DBStorage:
 
     def close(self):
         """Close de session"""
-        type(self).__session.remove()
+        self.__session.remove()
 
     def reload(self):
         """create the current database session"""
@@ -99,5 +99,6 @@ class DBStorage:
         # Creates a session
         session_factory = sessionmaker(
             bind=type(self).__engine, expire_on_commit=False)
-        Session = scoped_session(session_factory)
-        type(self).__session = Session()
+        # Session = scoped_session(session_factory)
+        # type(self).__session = Session()
+        type(self).__session = scoped_session(session_factory)
