@@ -22,7 +22,10 @@ def main():
     @app.route('/states/<id>', strict_slashes=False)
     def state_id(id):
         states = storage.all(State)
-        state_id = states['State.'+id]
+        try:
+            state_id = states['State.'+id]
+        except Exception:
+            state_id = None
         return render_template('9-states.html', state_id=state_id)
 
     app.run(host='0.0.0.0', port='5000')
