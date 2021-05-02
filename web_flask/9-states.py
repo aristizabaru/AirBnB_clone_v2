@@ -19,14 +19,12 @@ def main():
         states = storage.all(State)
         return render_template('9-states.html', states=states)
 
-    @app.route('/states/<id>', strict_slashes=False)
-    def state_id(id):
-        states = storage.all(State)
-        try:
-            state_id = states['State.'+id]
-        except Exception:
-            state_id = None
-        return render_template('9-states.html', state_id=state_id)
+    @app.route("/states/<id>", strict_slashes=False)
+    def states_id(id):
+        for state in storage.all(State).values():
+            if state.id == id:
+                return render_template("9-states.html", state_id=state)
+        return render_template("9-states.html")
 
     app.run(host='0.0.0.0', port='5000')
 

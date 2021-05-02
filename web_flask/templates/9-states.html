@@ -14,9 +14,12 @@
 		{% elif state_id %}
 		<h1>State: {{ state_id.name }}</h1>
 		<h3>Cities:</h3>
-		{% for city in state_id.cities|sort(attribute="name") %}
-		<li>{{ city.id }}: <b>{{ city.name }}</b></li>
-		{% endfor %} {% else %}
+		<ul>
+			{% for city in state_id.cities|sort(attribute="name") %}
+			<li>{{ city.id }}: <b>{{ city.name }}</b></li>
+			{% endfor %}
+		</ul>
+		{% else %}
 		<h1>Not found!</h1>
 		{% endif %}
 	</body>
