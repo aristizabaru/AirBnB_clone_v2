@@ -20,14 +20,12 @@ def main():
         states = storage.all(State)
         return render_template('9-states.html', states=states)
 
-    @app.route("/states/<id>")
-    def states_id(id):
+    @app.route("/states/<param>")
+    def states_id(param):
         for state in storage.all(State).values():
-            if state.id == id:
+            if state.id == param:
                 return render_template("9-states.html", state_id=state)
         return render_template("9-states.html")
-
-    app.run(host='0.0.0.0', port='5000')
 
 
 if __name__ == '__main__':
