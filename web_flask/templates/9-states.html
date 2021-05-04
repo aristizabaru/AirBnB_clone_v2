@@ -4,14 +4,14 @@
 		<title>HBNB</title>
 	</head>
 	<body>
-		{% if states %}
+		{% if states is defined %}
 		<h1>States</h1>
 		<ul>
 			{% for state in states.values()|sort(attribute="name") %}
 			<li>{{ state.id }}: <b>{{ state.name }}</b></li>
 			{% endfor %}
 		</ul>
-		{% elif state_id %}
+		{% elif state_id is defined %}
 		<h1>State: {{ state_id.name }}</h1>
 		<h3>Cities:</h3>
 		<ul>
@@ -21,33 +21,6 @@
 		</ul>
 		{% else %}
 		<h1>Not found!</h1>
-		{% endif %}
-	</body>
-</html>
-
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<title>HBNB</title>
-	</head>
-	<body>
-		{% if stateid %} {% for item in states if item.id == stateid %}
-		<h1>State: {{ item.name }}</h1>
-		<h3>Cities:</h3>
-		<ul>
-			{% for city in item.cities | sort(attribute='name') %}
-			<li>{{ city.id }}: <b>{{ city.name }}</b></li>
-			{% endfor %}
-		</ul>
-		{% else %}
-		<h1>Not found!</h1>
-		{% endfor %} {% else %}
-		<h1>States</h1>
-		<ul>
-			{% for item in states | sort(attribute='name') %}
-			<li>{{ item.id }}: <b>{{ item.name }}</b></li>
-			{% endfor %}
-		</ul>
 		{% endif %}
 	</body>
 </html>
